@@ -13,13 +13,11 @@ def min_count(amount, coins):
     min_coins[0] = 0
     last_taken = [-1] * (amount+1)
 
-    # Step 2: Iterate over coins
+    # Step 2: Iterate over coins, over each value
     for j in range(0,len(coins)):  
+        for i in range(0,len(min_coins)):   
 
-        # Step 3: Iterate over values up to target amount
-        for i in range(0,len(min_coins)):   # 
-
-            # Step 4: If coin is smaller than current value,
+            # Step 3: If coin is smaller than current value,
             #         and this combo used fewer coins than last best,
             #         1) Save as best score for 1 + (val-curr_coin)
             #         2) Save this coin as last coin taken in last_taken
@@ -28,7 +26,7 @@ def min_count(amount, coins):
                 min_coins[i] = 1 + min_coins[i-coins[j]]
                 last_taken[i] = j
 
-    # Step 5: 'Coins taken' found by going to target amount, then checking 
+    # Step 4: 'Coins taken' found by going to target amount, then checking 
     #          last coin used (from last_taken). Subtract off that value,
     #          then check *that* last_taken value, repeat til 0.
     #
@@ -41,7 +39,7 @@ def min_count(amount, coins):
         current_val -= coins[last_taken[current_val]]
 
 
-    # Step 6: return
+    # Step 5: return
     return min_coins[amount], which_coins
 
 
