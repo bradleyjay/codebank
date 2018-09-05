@@ -1,51 +1,74 @@
-# https://www.youtube.com/watch?v=NJuKJ8sasGk&t=272s
+# Problem: Make Change
+# Goal: Min Coin Count
 
-def min_count(amount, coins):
+'''
+Recipe:
 
-    # Step 1: Initialize arrays
-    # 1) min_coins: min number of coins to reach value, thus far
-    #               init: large num at each, 0 at i[0]
-    # 2) last_taken: when min coins beats current record, save last taken coin
-    #               init: -1 (saving index of coin matrix value, start as nonsense)
+1) Initialize Two Arrays
+    1 - min_count   length = target val + 1
+                    all = 999 (something big), except i[0] = 0
 
-    
-    min_coins = [999] * (amount+1)   # number of coins to reacha given value i (i is also index)
-    min_coins[0] = 0
-    last_taken = [-1] * (amount+1)
+    2 - last_coin   length = target val + 1
+                    all = -1
 
-    # Step 2: Iterate over coins, over each value
-    for j in range(0,len(coins)):  
-        for i in range(0,len(min_coins)):   
+2) Iterate over each coin:  (j)
+    Iterate over each value:    (i)
 
-            # Step 3: If coin is smaller than current value,
-            #         and this combo used fewer coins than last best,
-            #         1) Save as best score for 1 + (val-curr_coin)
-            #         2) Save this coin as last coin taken in last_taken
+3) save min(min_count[i], 1 + min_count[i-coin[j]])
+        if you do, save last used coin in last_coin
 
-            if coins[j] <= i and min_coins[i] > 1+min_coins[i-coins[j]]:
-                min_coins[i] = 1 + min_coins[i-coins[j]]
-                last_taken[i] = j
+4) Get coins used:
+    - start with target value, last coin taken
+    - take target_value - value of that coin
+    - now check for remaining value
 
-    # Step 4: 'Coins taken' found by going to target amount, then checking 
-    #          last coin used (from last_taken). Subtract off that value,
-    #          then check *that* last_taken value, repeat til 0.
-    #
+5) Return
 
-    current_val = amount
-    which_coins = []
+'''
+
+
+
+# Make Change, MIN COUNT
+def make_change_MINCOUNT(target_val, coins):
+
+# Step 1: Initialize Two Arrays
+    min_count = [9999] * (target_val + 1)
+    min_count[0] = 0
+
+    last_coin = [-1] * (target_val + 1)
+
+# Step 2: Iterate over each coin, over all values:
+    for j in range(0,len(coins)):
+        for i in range(0,len(min_count)):
+
+            # Step 3: take min(min_count[i], 1 + min_count[i-coins[j]])
+            #              if you update it, save last used coin
+            #           (because 1 + min_count[value-thisCoin) is one coin of that
+            #            denom in value, off the current value. The coin count
+            #            at that spot, + 1, is the number of coins to reach this spot, with
+            #           these allowed coins so far.)
+
+            if coins[j] <= i and min_count[i] > 1 + min_count[i-coins[j]]:
+                min_count[i] = 1+ min_count[i-coins[j]]
+                last_coin[i] = j
+
+ # Step 4: Get coins used:
+ #  - Start at target val
+ #  - Subtract off last coin used at that value 
+ #  - repeat til 0
+ 
+    current_val = target_val
+    coins_used = []
 
     while current_val > 0:
-        which_coins.append(coins[last_taken[current_val]])
-        current_val -= coins[last_taken[current_val]]
+        coins_used.append(coins[last_coin[current_val]])
+        current_val -= coins[last_coin[current_val]]
 
 
-    # Step 5: return
-    return min_coins[amount], which_coins
+# Step 5: Report min coin count to hit target val, what those coins were:
 
-
-
-
+    return min_count[target_val], coins_used
 
 
 coins = [7,2,3,6]
-print(min_count(13, coins))
+print(make_change_MINCOUNT(13, coins))

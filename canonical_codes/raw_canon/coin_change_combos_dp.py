@@ -11,15 +11,13 @@ def coin_change(amount, coins):
     for i in range(0, len(coins)):
         combos[i][0] = 1
 
-    # Step 2: Iterate over coins 
+    # Step 2: Iterate over coins, iterate over values
     #         Need both index, and coin value
 
     for i,coin in enumerate(coins):
-
-        # Step 3: Iterate through values
         for j in range(0,amount+1):
 
-            # Step 4: # combos is:
+            # Step 3: # combos is:
             #               whatever you could have done, with just prevoiusly allowed coins
             #               plus combos of this val - this denom (since this that val, plus this denom)
             #
@@ -35,6 +33,7 @@ def coin_change(amount, coins):
 
             # Step 4: This coin too big? Same as row before, when this coin wasn't allowed
             # if current amount < coin val
+            # (why doesnt this go out of index if the coin is too small, and row = 0...?)
             else:
                 combos[i][j] = combos[i-1][j]
 
