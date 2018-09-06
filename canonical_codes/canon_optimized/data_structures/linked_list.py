@@ -54,13 +54,13 @@ class Linked_List:
             current = current.next
 
         # action
-        if previous == None:
-            popped = self.head.value
+         popped = current.value
+
+        if previous == None:    
             self.head = None
         else:
-            popped = previous.value
-            previous.next = None
-
+            previous.next = None 
+        
         return popped
 
     #APPEND
@@ -71,7 +71,7 @@ class Linked_List:
             self.head = Node(value)
             return 
 
-        #traversal 
+        # traversal 
         current = self.head
         previous = None
 

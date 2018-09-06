@@ -1,6 +1,7 @@
 ## QUICK SORT
 ## Similar speed to MERGE SORT, but takes no extra space. However,
 ## it's worst case is O(n^2)
+
 ## Gist of it is, you split each list, then recursively move down into the 
 ## less than and greater than lists. by the time you're done, you've sorted each
 ## sublist et. al., and the wrinkle: you've been sorting ON THE LIST the whole
@@ -19,7 +20,7 @@ def quick_sort_helper(a_list, first, last):
     if first < last:
 
        
-        split_point = partition(a_list,first last)
+        split_point = partition(a_list,first, last)
 
         ## Ok, we're back. STEP 3: Now, quicksort the below-split-point list and
         ## above-split-point list.
